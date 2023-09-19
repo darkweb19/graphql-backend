@@ -1,3 +1,4 @@
+import { User } from ".";
 import UserService, { CreateUserPayload } from "../../services";
 
 const queries = {
@@ -10,6 +11,16 @@ const queries = {
 			password: payload.password,
 		});
 		return token;
+	},
+	getCurrentLoggedInUSer: async (_: any, parameters: any, context: any) => {
+		if (context && context.user.id) {
+			const id = context.user.id;
+			const user = await UserService.getUserById(id);
+
+			return user;
+		}
+
+		throw new Error("i dont know who are you ");
 	},
 };
 
